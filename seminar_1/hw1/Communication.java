@@ -6,22 +6,22 @@ package seminar_1.hw1;
 
 import java.util.Objects;
 
-public class Communication {
-    private FamilyMember fm1;
-    private FamilyMember fm2;
+public abstract class Communication {
+    private Human fm1;
+    private Human fm2;
     private Kinship kin;
 
-    public Communication(FamilyMember fm1, FamilyMember fm2, Kinship kin) {
+    public Communication(Human fm1, Human fm2, Kinship kin) {
         this.fm1 = fm1;
         this.fm2 = fm2;
         this.kin = kin;
     }
 
-    public FamilyMember fm1() {
+    public Human fm1() {
         return fm1;
     }
 
-    public FamilyMember fm2() {
+    public Human fm2() {
         return fm2;
     }
 

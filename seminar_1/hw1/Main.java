@@ -11,45 +11,51 @@ import java.time.LocalDate;
  * за вывод данных в консоль, загрузку и сохранения в файл, получение\построение отдельных 
  * моделей человека Под “проведением исследования” можно понимать получение всех детей 
  * выбранного человека. 
+ * 
+ * Используйте предыдущие задачи из прошлого домашнего задания. Необходимо гарантированно 
+ * продумать иерархию компонент и взаимодействия их между собой.
+ * Обеспечить переход от использования явных классов в сторону использования абстрактных типов. 
+ * Т.е. работаем не с конкретным экземпляром генеалогического древа, а с интерфейсом 
+ * “генеалогическое древо”.
  */
 
 public class Main {
     public static void main(String[] args) {
-        FamilyMember Semeon = new FamilyMember(
+        Human Semeon = new FamilyMember(
                 "Semeon",
                 "Slepakov",
-                FamilyMember.Sex.man,
+                FamilyMember.Sex.MAN,
                 LocalDate.of(1950, 7, 21)
-        ); FamilyMember Viktory = new FamilyMember(
+        ); Human Viktory = new FamilyMember(
                 "Viktory",
                 "Skladchikova",
-                FamilyMember.Sex.woman,
+                FamilyMember.Sex.WOMAN,
                 LocalDate.of(1954, 4, 22)
-        ); FamilyMember Pavel = new FamilyMember(
+        ); Human Pavel = new FamilyMember(
                 "Pavel",
                 "Volya",
-                FamilyMember.Sex.man,
+                FamilyMember.Sex.MAN,
                 LocalDate.of(1984, 1, 20)
-        ); FamilyMember Nadejda = new FamilyMember(
+        ); Human Nadejda = new FamilyMember(
                 "Nadejda",
                 "Babkina",
-                FamilyMember.Sex.woman,
+                FamilyMember.Sex.WOMAN,
                 LocalDate.of(1989, 6, 13)
-        ); FamilyMember Alexandr = new FamilyMember(
+        ); Human Alexandr = new FamilyMember(
                 "Alexandr",
                 "Marshal",
-                FamilyMember.Sex.man,
+                FamilyMember.Sex.MAN,
                 LocalDate.of(2000, 7, 22)
         );
 
-        FamilyTree familyTree = new FamilyTree()
+        FamilyTree familyTree = new MyFamilyTree()
                 .appendChild(Semeon, Pavel).appendChild(Semeon, Nadejda).appendChild(Semeon, Alexandr)
                 .appendChild(Viktory, Pavel).appendChild(Viktory, Nadejda).appendChild(Viktory, Alexandr)
                 .appendMarried(Viktory, Semeon);
 
         System.out.println(familyTree);
-        System.out.println(new Research(familyTree).spend(Semeon, Kinship.child));
-        System.out.println(new Research(familyTree).complexSpend(Semeon));
-        System.out.println(new Research(familyTree).complexSpend(Alexandr));
+        System.out.println(new MyResearch(familyTree).spend(Semeon, Kinship.CHILD));
+        System.out.println(new MyResearch(familyTree).complexSpend(Semeon));
+        System.out.println(new MyResearch(familyTree).complexSpend(Alexandr));
     }
 }

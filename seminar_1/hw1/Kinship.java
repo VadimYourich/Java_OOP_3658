@@ -5,8 +5,8 @@ package seminar_1.hw1;
  */
 
 enum Kinship {
-    parent,
-    child,
-    sibling,
-    married
+    PARENT,
+    CHILD,
+    SIBLING,
+    MARRIED
 }
