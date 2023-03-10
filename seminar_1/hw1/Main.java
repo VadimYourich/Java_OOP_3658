@@ -22,29 +22,34 @@ import java.time.LocalDate;
 public class Main {
     public static void main(String[] args) {
         Human Semeon = new FamilyMember(
+                0,
                 "Semeon",
                 "Slepakov",
-                FamilyMember.Sex.MAN,
+                Human.Sex.MAN,
                 LocalDate.of(1950, 7, 21)
         ); Human Viktory = new FamilyMember(
+                1,
                 "Viktory",
                 "Skladchikova",
-                FamilyMember.Sex.WOMAN,
+                Human.Sex.WOMAN,
                 LocalDate.of(1954, 4, 22)
         ); Human Pavel = new FamilyMember(
+                2,
                 "Pavel",
                 "Volya",
-                FamilyMember.Sex.MAN,
+                Human.Sex.MAN,
                 LocalDate.of(1984, 1, 20)
         ); Human Nadejda = new FamilyMember(
+                3,
                 "Nadejda",
                 "Babkina",
-                FamilyMember.Sex.WOMAN,
+                Human.Sex.WOMAN,
                 LocalDate.of(1989, 6, 13)
         ); Human Alexandr = new FamilyMember(
+                4,
                 "Alexandr",
                 "Marshal",
-                FamilyMember.Sex.MAN,
+                Human.Sex.MAN,
                 LocalDate.of(2000, 7, 22)
         );
 
@@ -53,9 +58,21 @@ public class Main {
                 .appendChild(Viktory, Pavel).appendChild(Viktory, Nadejda).appendChild(Viktory, Alexandr)
                 .appendMarried(Viktory, Semeon);
 
-        System.out.println(familyTree);
+        FileTransfer fileTransfer = new FileTransfer("familyTree.json");
+        fileTransfer.write(FamilyTreeParser.dump(familyTree));
+
+        familyTree = FamilyTreeParser.load(fileTransfer.read());
+
         System.out.println(new MyResearch(familyTree).spend(Semeon, Kinship.CHILD));
         System.out.println(new MyResearch(familyTree).complexSpend(Semeon));
         System.out.println(new MyResearch(familyTree).complexSpend(Alexandr));
+
+        System.out.println(
+                familyTree.find(HumanFilter.create()
+                        .setLastName("Slepakov")
+                        .setStartDate(LocalDate.of(1950,7,21))
+                        .setSex(Human.Sex.MAN)
+                )
+        );
     }
 }

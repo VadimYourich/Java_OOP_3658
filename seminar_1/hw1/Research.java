@@ -14,7 +14,7 @@ public abstract class Research {
         List<Human> familyMembers = new ArrayList<>();
         for (Communication communication : ft.communications(fm)) {
             if (communication.kin().equals(kin))
-                familyMembers.add(communication.fm2());
+                familyMembers.add(ft.getHumanById(communication.secondId()));
         }
         return familyMembers;
     }

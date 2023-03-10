@@ -6,23 +6,23 @@ package seminar_1.hw1;
 
 import java.util.Objects;
 
-public abstract class Communication {
-    private Human fm1;
-    private Human fm2;
+public abstract class Communication implements Comparable<Communication>{
+    private int firstId;
+    private int secondId;
     private Kinship kin;
 
-    public Communication(Human fm1, Human fm2, Kinship kin) {
-        this.fm1 = fm1;
-        this.fm2 = fm2;
+    public Communication(int firstId, int secondId, Kinship kin) {
+        this.firstId = firstId;
+        this.secondId = secondId;
         this.kin = kin;
     }
 
-    public Human fm1() {
-        return fm1;
+    public int firstId() {
+        return firstId;
     }
 
-    public Human fm2() {
-        return fm2;
+    public int secondId() {
+        return secondId;
     }
 
     public Kinship kin() {
@@ -34,12 +34,12 @@ public abstract class Communication {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Communication communication = (Communication) o;
-        return Objects.equals(fm1, communication.fm1) && Objects.equals(fm2, communication.fm2) && 
+        return Objects.equals(firstId, communication.firstId) && Objects.equals(secondId, communication.secondId) && 
         kin == communication.kin;
     }
 
     @Override
     public String toString() {
-        return String.format("%s %s %s", fm1, kin, fm2);
+        return String.format("%s %s %s", firstId, kin, secondId);
     }
 }
