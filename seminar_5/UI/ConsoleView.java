@@ -1,20 +1,21 @@
 package seminar_5.UI;
 
-import seminar_5.Logger.MyLogger;
+import seminar_5.Logger.MyLoggerNew;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.util.Scanner;
 import java.util.logging.Logger;
-import java.io.File;
-import java.io.BufferedReader;
 
 /**
- * Класс описывает общение с пользователем
+ * Класс описывает взаимодействие с пользователем
  */
 
 public class ConsoleView implements View {
-    static MyLogger myLog = new MyLogger(Logger.getLogger(ConsoleView.class.getName()));
+    static MyLoggerNew myLog = new MyLoggerNew(Logger.getLogger(ConsoleView.class.getName()));
     Scanner scanner;
+
     public ConsoleView() {
         this.scanner = new Scanner(System.in);
     }
@@ -27,7 +28,7 @@ public class ConsoleView implements View {
             num = scanner.nextDouble();
             myLog.log(String.format("%s => %s", title, num));
         } else {
-            System.out.println("ДОПУЩЕНА ОШИБКА ПРИ ВВОДЕ ЧИСЛА! ПОПРОБУЙТЕ СНОВА.");
+            System.out.println("ДОПУЩЕНА ОШИБКА ПРИ ВВОДЕ ЧИСЛА! ПОПРОБУЙТЕ СНОВА...");
             myLog.log(String.format("%s => ОШИБКА ВВОДА", title));
             scanner.next();
             num = getValue(title);
@@ -36,29 +37,29 @@ public class ConsoleView implements View {
     }
 
     @Override
-    public char getOperation(String title) {
+    public int getVariant(String title) {
         System.out.println(title);
-        char operation;
-        if(scanner.hasNext()){
-            operation = scanner.next().charAt(0);
-            myLog.log(String.format("%s => \"%s\"", title, operation));
+        int num;
+        if(scanner.hasNextInt()){
+            num = scanner.nextInt();
+            myLog.log(String.format("%s => ВЫБРАН %s", title, num));
         } else {
-            System.out.println("ДОПУЩЕНА ОШИБКА ПРИ ВВОДЕ ЧИСЛА! ПОПРОБУЙТЕ СНОВА.");
+            System.out.println("ДОПУЩЕНА ОШИБКА ПРИ ВВОДЕ ЧИСЛА! ПОПРОБУЙТЕ СНОВА...");
             myLog.log(String.format("%s => ОШИБКА ВВОДА", title));
             scanner.next();
-            operation = getOperation(title);
+            num = getVariant(title);
         }
-        return operation;    
+        return num;
     }
 
     @Override
-    public void viewResult(String result, String title) {
-        myLog.log(String.format("ВЫДАН РЕЗУЛЬТАТ %s %s", title, result));
-        System.out.printf("%s %s\n", title, result);
+    public void viewData(String data, String title) {
+        myLog.log(String.format("ПОЛУЧЕН ОТВЕТ: %s %s", title, data));
+        System.out.printf("%s %s\n", title, data);
     }
 
     @Override
-    public void viewLogger(File file) {
+    public void viewLog(File file) {
         myLog.log(String.format("%s - ВЫДАНО СОДЕРЖИМОЕ ЖУРНАЛА ЛОГГИРОВАНИЯ ПО ЗАПРОСУ ", file));
         try {
             FileReader fr = new FileReader(file);

@@ -1,55 +1,52 @@
 package seminar_5.UI;
 
-import seminar_5.Infrastucture.CalcComplexNumbers;
-import seminar_5.Infrastucture.CalcRationalNumbers;
-import seminar_5.MVP.*;
-import seminar_5.Logger.MyLogger;
+import seminar_5.Presenter.I_Presenter;
+import seminar_5.Presenter.PresenterCalcComplexNumbers;
+import seminar_5.Presenter.PresenterCalcRationalNumbers;
 
 import java.io.File;
-import java.util.Scanner;
-import java.util.logging.Logger;
 
 /**
- * Меню программы
+ * Меню приложения
  */
 
 public class App {
-    static Scanner in = new Scanner(System.in);
-    static MyLogger myLog = new MyLogger(Logger.getLogger(App.class.getName()));
+    private final View view;
+    private I_Presenter presenter;
 
-    static View view = new ConsoleView();
-    static Presenter presenter;
+    public App(View view) {
+        this.view = view;
+    }
 
-    public static void start() {
+    void setPresenter(int num) {
+        if (num == 1) presenter = new PresenterCalcRationalNumbers(view);
+        else if (num == 2) {
+            presenter = new PresenterCalcComplexNumbers(view);
+        }
+    }
+
+    public void start() {
         while (true) {
-            System.out.println();
-            System.out.println("""
-                        ВВЕДИТЕ ЦИФРУ ТРЕБУЕМОЙ ОПЕРАЦИИ ИЗ МЕНЮ:
+            int menu = view.getVariant("""
+                    
+                        ВВЕДИТЕ ЧИСЛО, СОГЛАСНО ПУНКТУ МЕНЮ:
                         1 => ОПЕРАЦИИ С РАЦИОНАЛЬНЫМИ ЧИСЛАМИ
                         2 => ОПЕРАЦИИ С КОМПЛЕКСНЫМИ ЧИСЛАМИ
                         3 => ПРОСМОТР ФАЙЛА ЛОГИРОВАНИЯ
-                        4 => ВЫХОД ИЗ ПРОГРАММЫ
-                    """);
-            switch (in.nextInt()) {
-                case 1 -> {
-                    myLog.log("ВЫБРАН ПУНКТ МЕНЮ => ОПЕРАЦИИ С РАЦИОНАЛЬНЫМИ ЧИСЛАМИ");
-                    presenter = new Presenter<>(new CalcRationalNumbers(), view);
+                        4 => ВЫХОД ИЗ ПРОГРАММЫ""");
+            switch (menu) {
+                case 1, 2:
+                    this.setPresenter(menu); 
                     presenter.buttonClick();
-                }
-                case 2 -> {
-                    myLog.log("ВЫБРАН ПУНКТ МЕНЮ => ОПЕРАЦИИ С КОМПЛЕКСНЫМИ ЧИСЛАМИ");
-                    presenter = new Presenter<>(new CalcComplexNumbers(), view);
-                    presenter.buttonClick();
-                }
-                case 3 -> {
-                    myLog.log("ВЫБРАН ПУНКТ МЕНЮ => ПРОСМОТР ФАЙЛА ЛОГИРОВАНИЯ");
-                    view.viewLogger(new File("seminar_5\\FileLog.txt"));
-                }
-                case 4 -> {
-                    myLog.log("ВЫБРАН ПУНКТ МЕНЮ => ВЫХОД ИЗ ПРОГРАММЫ");
+                    break;
+                case 3:
+                    view.viewLog(new File("seminar_5\\CalculatorLog.txt"));
+                    break;
+                case 4:
                     return;
-                }
-                default -> myLog.log("ВВЕДЕН НЕКОРРЕКТНЫЙ ПУНКТ МЕНЮ. ПОВТОРИТЕ ВВОД...");
+                default:
+                    view.viewData( "ВВЕДЕН НЕКОРРЕКТНЫЙ ПУНКТ МЕНЮ."," ПОВТОРИТЕ ВВОД.");
+                    break;
             }
         }
     }

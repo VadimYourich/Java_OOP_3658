@@ -1,11 +1,12 @@
 package seminar_5.Infrastucture;
 
 /**
- * Интерфейс Модели
+ * Интерфейс описывает стандартное поведение основной логики проекта
  */
-public interface Model <T> {
-    T result(char operation) throws Exception;
 
+public interface Model <T> {
+
+    T result();
 
     void setX(T value);
 
